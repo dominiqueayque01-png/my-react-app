@@ -1,0 +1,361 @@
+/* App.css */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: #f4f7f6; /* A nice light grey for the page background */
+}
+
+/* Center the app on the screen and give it a card look */
+.app-container {
+  max-width: 600px; /* We increased this so your new buttons fit perfectly! */
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.title {
+  text-align: center;
+  color: #333333;
+  margin-bottom: 20px;
+  font-size: 50px;
+}
+
+/* Arrange the input and button side-by-side */
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.task-input {
+  flex-grow: 1; /* Makes the input take up remaining space */
+  padding: 10px 15px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.add-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.add-button:hover {
+  background-color: #0056b3;
+}
+
+/* Style the list to look clean */
+.task-list {
+  list-style: none; /* Removes the default bullet points */
+  padding: 0;
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between; /* Pushes text left and button right */
+  align-items: center;
+  padding: 12px 15px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  border: 1px solid #eeeeee;
+}
+
+
+/* Make the task text clickable and take up space */
+.task-text {
+  cursor: pointer;
+  flex-grow: 1;
+  padding-right: 15px;
+  word-break: break-word; /* NEW: Forces long text to break onto the next line instead of overlapping */
+  line-height: 1.4; /* NEW: Adds a little breathing room if the text drops to a second line */
+}
+
+/* The style for a finished task */
+.completed-text {
+  text-decoration: line-through;
+  color: #888888;
+}
+
+/* Style for the Clear Completed button */
+.clear-button {
+  background-color: transparent;
+  color: #6c757d;
+  border: 1px solid #6c757d;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.clear-button:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* Styling the new counter text */
+.counter-text {
+  text-align: center;
+  color: #555555;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* Styling the category dropdown menu */
+.category-select {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  background-color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Grouping the task text and badge together */
+/* Update this existing class */
+.task-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-grow: 1;
+  min-width: 0; /* NEW: This magic flexbox trick prevents the container from blowing out of its bounds! */
+}
+
+/* Base style for the category badge */
+.category-badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Different colors for different categories! */
+.personal {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.work {
+  background-color: #cfe2ff;
+  color: #084298;
+}
+
+.errands {
+  background-color: #fff3cd;
+  color: #664d03;
+}
+
+/* Styling the container for the filter buttons */
+.filter-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Base style for the filter buttons */
+.filter-btn {
+  background-color: transparent;
+  border: 1px solid #cccccc;
+  padding: 6px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #555555;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  background-color: #f8f9fa;
+}
+
+/* Style for the currently active filter */
+.active-filter {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.active-filter:hover {
+  background-color: #0056b3;
+}
+
+/* Styling the date input */
+.date-input {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font-family: inherit;
+  color: #555;
+}
+
+/* Styling the displayed date text */
+.task-date {
+  font-size: 12px;
+  color: #666;
+  background-color: #f1f1f1;
+  padding: 3px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* Grouping the Edit and Delete buttons together */
+.action-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+
+
+
+
+
+/* Layout for when a task is in Edit Mode */
+.edit-mode {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+/* Style for the Save button */
+/* NEW: Professional Icon Button Styles */
+.icon-button {
+  background: transparent;
+  border: none;
+  border-radius: 50%; /* Makes the hover effect a perfect circle */
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #6c757d;
+}
+
+/* Specific colors for different actions on hover */
+.edit-icon:hover {
+  background-color: #e2e8f0;
+  color: #3b82f6; /* Blue */
+}
+
+.delete-icon:hover {
+  background-color: #fee2e2;
+  color: #ef4444; /* Red */
+}
+
+.save-icon {
+  color: #22c55e; /* Green */
+}
+
+.save-icon:hover {
+  background-color: #dcfce7;
+}
+
+.cancel-icon:hover {
+  background-color: #f1f5f9;
+  color: #64748b;
+}
+
+/* Styling the new Header layout */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.theme-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #555555;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle:hover {
+  color: #007bff;
+}
+
+/* =========================================
+   🌙 DARK THEME OVERRIDES 
+   ========================================= */
+
+/* When the body has the dark-theme class, change these colors! */
+body.dark-theme {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-theme .app-container {
+  background-color: #1e1e1e;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-theme .title,
+body.dark-theme .counter-text,
+body.dark-theme .theme-toggle {
+  color: #e0e0e0;
+}
+
+body.dark-theme .theme-toggle:hover {
+  color: #fbd38d; /* A nice sun-yellow hover color */
+}
+
+/* Inputs and Selects */
+body.dark-theme .task-input,
+body.dark-theme .date-input,
+body.dark-theme .category-select {
+  background-color: #2c2c2c;
+  border: 1px solid #444444;
+  color: #e0e0e0;
+}
+
+/* Filter Buttons */
+body.dark-theme .filter-btn {
+  color: #aaaaaa;
+  border-color: #555555;
+}
+
+body.dark-theme .filter-btn:hover {
+  background-color: #333333;
+}
+
+body.dark-theme .active-filter {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+/* Tasks */
+body.dark-theme .task-item {
+  background-color: #2c2c2c;
+  border-color: #444444;
+}
+
+body.dark-theme .task-date {
+  background-color: #444444;
+  color: #cccccc;
+}
+
+/* Icons */
+body.dark-theme .icon-button {
+  color: #aaaaaa;
+}
+
+body.dark-theme .edit-icon:hover { background-color: rgba(59, 130, 246, 0.2); }
+body.dark-theme .delete-icon:hover { background-color: rgba(239, 68, 68, 0.2); }
+body.dark-theme .save-icon:hover { background-color: rgba(34, 197, 94, 0.2); }
+body.dark-theme .cancel-icon:hover { background-color: #444444; }
