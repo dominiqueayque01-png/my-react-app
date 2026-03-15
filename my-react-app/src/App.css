@@ -1,5 +1,7 @@
 /* App.css */
 body {
+  margin: 0;
+  padding: 0;
   transition: background-color 0.3s ease, color 0.3s ease;
   background-color: #f4f7f6; /* A nice light grey for the page background */
 }
@@ -29,12 +31,29 @@ body {
   margin-bottom: 30px;
 }
 
-.task-input {
-  flex-grow: 1; /* Makes the input take up remaining space */
+/* 4. Modern Input Fields with Explicit Light Theme Colors */
+.task-input, .date-input, .category-select {
+  background-color: #ffffff; /* FORCES the background to be white */
+  color: #1e293b; /* FORCES the text to be dark grey so you can read it */
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
   padding: 10px 15px;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  font-size: 16px;
+  font-family: inherit; /* Makes sure the font matches the rest of the app */
+  transition: all 0.2s ease;
+  outline: none; 
+}
+
+/* Fix for the select dropdown specifically so it looks like a button */
+.category-select {
+  cursor: pointer;
+  appearance: auto; /* Ensures the dropdown arrow actually shows up! */
+}
+
+/* When the user clicks an input, it glows blue! */
+.task-input:focus, .date-input:focus, .category-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  background-color: #ffffff; /* Keeps it white when clicked */
 }
 
 .add-button {
@@ -110,15 +129,7 @@ body {
   font-size: 14px;
 }
 
-/* Styling the category dropdown menu */
-.category-select {
-  padding: 10px;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  background-color: white;
-  font-size: 14px;
-  cursor: pointer;
-}
+
 
 /* Grouping the task text and badge together */
 /* Update this existing class */
@@ -190,14 +201,7 @@ body {
   background-color: #0056b3;
 }
 
-/* Styling the date input */
-.date-input {
-  padding: 10px;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  font-family: inherit;
-  color: #555;
-}
+
 
 /* Styling the displayed date text */
 .task-date {
@@ -359,3 +363,147 @@ body.dark-theme .edit-icon:hover { background-color: rgba(59, 130, 246, 0.2); }
 body.dark-theme .delete-icon:hover { background-color: rgba(239, 68, 68, 0.2); }
 body.dark-theme .save-icon:hover { background-color: rgba(34, 197, 94, 0.2); }
 body.dark-theme .cancel-icon:hover { background-color: #444444; }
+
+/* =========================================
+   PAGE GRID LAYOUT
+   ========================================= */
+
+/* The magic CSS Grid that creates a sticky footer! */
+.page-wrapper {
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Header takes what it needs, Main takes the rest, Footer takes what it needs */
+  min-height: 100vh;
+}
+
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Keeps the app near the top rather than middle of the page */
+  padding: 20px;
+}
+
+/* =========================================
+   HEADER STYLES
+   ========================================= */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #3b82f6;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #64748b;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #3b82f6;
+}
+
+.global-toggle {
+  background-color: #f1f5f9;
+  padding: 8px;
+  border-radius: 50%;
+}
+
+/* =========================================
+   FOOTER STYLES
+   ========================================= */
+.site-footer {
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  padding: 20px 40px;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-links a {
+  color: #94a3b8;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: #3b82f6;
+}
+
+/* =========================================
+   DARK THEME OVERRIDES FOR LAYOUT
+   ========================================= */
+body.dark-theme .site-header,
+body.dark-theme .site-footer {
+  background-color: #1e1e1e;
+  border-color: #333333;
+}
+
+body.dark-theme .global-toggle {
+  background-color: #333333;
+}
+
+body.dark-theme .nav-link,
+body.dark-theme .site-footer p,
+body.dark-theme .footer-links a {
+  color: #aaaaaa;
+}
+
+/* Styling for our new real-time clock */
+.header-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.clock-time {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.clock-date {
+  font-size: 12px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Dark mode fix for the clock text */
+body.dark-theme .clock-time {
+  color: #e0e0e0;
+}
+
+body.dark-theme .clock-date {
+  color: #aaaaaa;
+}

@@ -2,23 +2,14 @@ import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion'; 
 import './App.css'; 
 import TaskItem from './components/TaskItem';
-import { FiSun, FiMoon } from 'react-icons/fi';
-
-const getTodayDate = () => {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-};
+import Header from './components/Header'; 
+import Footer from './components/Footer'; 
 
 export default function App() {
   const [input, setInput] = useState("");
   const [category, setCategory] = useState("Personal"); 
   const [filter, setFilter] = useState("All"); 
-  const [taskDate, setTaskDate] = useState(getTodayDate()); 
 
-// NEW: State for Dark Mode, checking LocalStorage first!
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("my-smart-theme");
     return savedTheme === "dark" ? true : false;
@@ -31,7 +22,6 @@ export default function App() {
     } 
     return []; 
   });
-  
 
   useEffect(() => {
     localStorage.setItem("my-smart-tasks", JSON.stringify(tasks));
@@ -62,12 +52,11 @@ export default function App() {
         id: Date.now(), 
         text: input, 
         completed: false, 
-        category: category,
-        date: taskDate 
+        category: category
+        // Notice we completely removed the date from here!
       };
       setTasks([...tasks, newTask]);
       setInput(""); 
-      setTaskDate(getTodayDate()); 
     }
   };
 
@@ -86,7 +75,6 @@ export default function App() {
     );
   };
 
-  // NEW: A simplified function just to save the edited text
   const editTaskText = (id, newText) => {
     setTasks(
       tasks.map((task) => {
@@ -102,71 +90,110 @@ export default function App() {
     setTasks(tasks.filter(task => !task.completed));
   };
 
+  const testNotification = () => {
+    if (!("Notification" in window)) {
+      alert("This browser does not support desktop notification");
+      return;
+    }
+    if (Notification.permission === "granted") {
+      new Notification("SmartTask: Time to work!", {
+        body: "This is what your task reminders will look like.",
+        icon: "https://cdn-icons-png.flaticon.com/512/762/762686.png" 
+      });
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          new Notification("Awesome!", {
+            body: "You will now get task reminders."
+          });
+        }
+      });
+    }
+  };
+
   return (
-    <div className="app-container">
-      <p className="title">My Smart Tracker</p>
-      <div className="header-container">
-        <button className="theme-toggle" onClick={() => setIsDarkMode(!isDarkMode)}>
-          {isDarkMode ? <FiSun /> : <FiMoon />}
-        </button>
-        <p className="counter-text">
-          You have <strong>{remainingTasks}</strong> task(s) left to do!
-        </p>
-      </div>
+    <div className="page-wrapper">
+      <Header 
+        isDarkMode={isDarkMode} 
+        setIsDarkMode={setIsDarkMode} 
+        testNotification={testNotification} 
+      />
 
-      <div className="input-group">
-        <input 
-          className="task-input"
-          value={input} 
-          onChange={(e) => setInput(e.target.value)} 
-          placeholder="What needs to be done?"
-        />
-        <input 
-          type="date" 
-          className="date-input"
-          value={taskDate}
-          onChange={(e) => setTaskDate(e.target.value)}
-        />
-        <select 
-          className="category-select" 
-          value={category} 
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          <option value="Personal">Personal</option>
-          <option value="Work">Work</option>
-          <option value="Errands">Errands</option>
-        </select>
-        <button className="add-button" onClick={addTask}>Add</button>
-      </div>
+      <main className="main-content">
+        <div className="app-container">
+          
+          <div className="header-container">
+            <h1 className="title">My Dashboard</h1>
+          </div>
+          
+          <p className="counter-text">
+            You have <strong>{remainingTasks}</strong> task(s) left to do!
+          </p>
 
-      <div className="filter-group">
-        <button className={`filter-btn ${filter === "All" ? "active-filter" : ""}`} onClick={() => setFilter("All")}>All</button>
-        <button className={`filter-btn ${filter === "Active" ? "active-filter" : ""}`} onClick={() => setFilter("Active")}>Active</button>
-        <button className={`filter-btn ${filter === "Completed" ? "active-filter" : ""}`} onClick={() => setFilter("Completed")}>Completed</button>
-      </div>
-
-<ul className="task-list">
-        {/* AnimatePresence watches the items inside it */}
-        <AnimatePresence>
-          {filteredTasks.map(task => (
-            <TaskItem 
-              key={task.id} 
-              task={task} 
-              toggleComplete={toggleComplete} 
-              deleteTask={deleteTask}
-              editTaskText={editTaskText}
+          <div className="input-group">
+            <input 
+              className="task-input"
+              value={input} 
+              onChange={(e) => setInput(e.target.value)} 
+              placeholder="What needs to be done?"
             />
-          ))}
-        </AnimatePresence>
-      </ul>
+            {/* The date input has been completely removed from here! */}
+            <select 
+              className="category-select" 
+              value={category} 
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="Personal">Personal</option>
+              <option value="Work">Work</option>
+              <option value="Errands">Errands</option>
+            </select>
+            <button className="add-button" onClick={addTask}>Add</button>
+          </div>
 
-      {tasks.length > 0 && (
-        <div style={{ marginTop: '20px', textAlign: 'center' }}>
-          <button className="clear-button" onClick={clearCompleted}>
-            Clear Completed Tasks
-          </button>
+          <div className="filter-group">
+            <button className={`filter-btn ${filter === "All" ? "active-filter" : ""}`} onClick={() => setFilter("All")}>All</button>
+            <button className={`filter-btn ${filter === "Active" ? "active-filter" : ""}`} onClick={() => setFilter("Active")}>Active</button>
+            <button className={`filter-btn ${filter === "Completed" ? "active-filter" : ""}`} onClick={() => setFilter("Completed")}>Completed</button>
+          </div>
+
+          <ul className="task-list">
+            <AnimatePresence>
+              {filteredTasks.map(task => (
+                <TaskItem 
+                  key={task.id} 
+                  task={task} 
+                  toggleComplete={toggleComplete} 
+                  deleteTask={deleteTask}
+                  editTaskText={editTaskText}
+                />
+              ))}
+            </AnimatePresence>
+          </ul>
+
+          {filteredTasks.length === 0 && (
+            <div className="empty-state">
+              <p>📝 No tasks found. Time to relax or add a new one!</p>
+            </div>
+          )}
+
+          {tasks.length > 0 && (
+            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', gap: '10px' }}>
+              {filter === "Completed" && filteredTasks.length > 0 && (
+                <button className="clear-button" onClick={clearCompleted}>
+                  Clear Completed
+                </button>
+              )}
+              {tasks.length > 0 && (
+              <button className="clear-button" onClick={testNotification}>
+                Test Notification 🔔
+              </button>
+            )}
+            </div>
+          )}
         </div>
-      )}
+      </main>
+
+      <Footer />
     </div>
   );
 }
